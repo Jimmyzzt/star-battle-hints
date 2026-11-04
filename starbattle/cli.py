@@ -9,16 +9,18 @@ from pathlib import Path
 from .model import Puzzle
 from .solver import StarBattleSolver
 from .logic import diagnose, next_hint
+from .ladder import hint_ladder
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description='Star Battle: exact checking and spoiler-controlled hints')
     parser.add_argument('board', type=Path, help='JSON puzzle file')
-    parser.add_argument('mode', nargs='?', choices=['hint','check','solve'], default='hint')
+    parser.add_argument('mode', nargs='?', choices=['hint','check','solve','ladder'], default='hint')
     parser.add_argument('--level', type=int, choices=[1,2,3], default=2,
                         help='1 direction only; 2 one local step; 3 global proof')
     parser.add_argument('--max-probes', type=int, default=60)
+    parser.add_argument('--steps', type=int, default=3, help='number of precomputed hint steps for ladder (1..15)')
     parser.add_argument('--time-limit', type=float, default=15.,
                         help='seconds per exact feasibility call')
     parser.add_argument('--reveal', action='store_true',
@@ -34,6 +36,8 @@ def main(argv: list[str] | None = None) -> int:
                                 max_probes=args.max_probes)
         elif args.mode == 'check':
             payload = diagnose(puzzle, solver, max_probes=args.max_probes)
+        elif args.mode == 'ladder':
+            payload = hint_ladder(puzzle, solver, steps=args.steps)
         else:
             if not args.reveal:
                 parser.error('the solve mode requires --reveal to prevent spoilers')
