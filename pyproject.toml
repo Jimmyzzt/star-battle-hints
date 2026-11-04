@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "star-battle-hints"
+version = "0.1.0"
+description = "Verifiable, spoiler-controlled Star Battle puzzle hints and mistake checks"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.25,<3", "scipy>=1.11,<2"]
+
+[project.optional-dependencies]
+image = ["Pillow>=10"]
+
+[project.scripts]
+starbattle = "starbattle.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["starbattle*"]

@@ -1,0 +1,14 @@
+{
+  "size": 6,
+  "stars_per_unit": 1,
+  "regions": [
+    "AAAAAA",
+    "BBBBBB",
+    "CCCCCC",
+    "DDDDDD",
+    "EEEEEE",
+    "FFFFFF"
+  ],
+  "stars": [[1, 1]],
+  "crosses": [[1, 2], [2, 1], [2, 2]]
+}

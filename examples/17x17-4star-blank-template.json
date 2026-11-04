@@ -1,0 +1,26 @@
+{
+  "_comment": "仅作为格式模板！下面按行分区的布局不是 2026-11-04 原题；必须替换 regions 后才能分析截图。",
+  "size": 17,
+  "stars_per_unit": 4,
+  "regions": [
+    "AAAAAAAAAAAAAAAAA",
+    "BBBBBBBBBBBBBBBBB",
+    "CCCCCCCCCCCCCCCCC",
+    "DDDDDDDDDDDDDDDDD",
+    "EEEEEEEEEEEEEEEEE",
+    "FFFFFFFFFFFFFFFFF",
+    "GGGGGGGGGGGGGGGGG",
+    "HHHHHHHHHHHHHHHHH",
+    "IIIIIIIIIIIIIIIII",
+    "JJJJJJJJJJJJJJJJJ",
+    "KKKKKKKKKKKKKKKKK",
+    "LLLLLLLLLLLLLLLLL",
+    "MMMMMMMMMMMMMMMMM",
+    "NNNNNNNNNNNNNNNNN",
+    "OOOOOOOOOOOOOOOOO",
+    "PPPPPPPPPPPPPPPPP",
+    "QQQQQQQQQQQQQQQQQ"
+  ],
+  "stars": [],
+  "crosses": []
+}
