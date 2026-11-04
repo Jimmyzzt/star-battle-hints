@@ -110,3 +110,36 @@ class RealPuzzleRegressionTests(unittest.TestCase):
         self.assertEqual(s.with_marks().status, 'sat')
         hint=next_hint(p,s,level=2)
         self.assertIn(hint['type'], ('star','cross'))
+
+
+class HintLadderTests(unittest.TestCase):
+    """Multi-step hints must never classify optional stars as forced."""
+
+    def test_ladder_forced_stars_are_genuinely_forced(self):
+        from dataclasses import replace
+        from starbattle.ladder import hint_ladder
+        path = DATA.parent/'2026-11-04-17x17-4star-transcribed.json'
+        raw = Puzzle.from_dict(json.loads(path.read_text('utf-8')))
+        p = replace(raw,
+                    stars=raw.stars-{(7,12),(9,12),(11,13),(15,14)},
+                    crosses=raw.crosses-{(10,12),(10,14),(12,13)})
+        solver = StarBattleSolver(p, time_limit=30.)
+        out = hint_ladder(p, solver, steps=3)
+        self.assertEqual(out['status'], 'sat')
+        self.assertTrue(out['steps'])
+        for step in out['steps']:
+            self.assertIn('tier1', step)
+            self.assertIn('tier2', step)
+            self.assertIn('tier3', step)
+            for row, col in step['tier3']['forced_stars']:
+                candidate = (row-1,col-1)
+                proof = solver.solve(stars=p.stars, crosses=p.crosses | {candidate})
+                self.assertEqual(proof.status, 'unsat')
+
+    def test_ladder_rejects_contradictory_marks(self):
+        from starbattle.ladder import hint_ladder
+        p = Puzzle.from_dict({**json.loads(DATA.read_text('utf-8')),
+                              'stars': [[1, 1], [2, 2]], 'crosses': []})
+        out = hint_ladder(p, StarBattleSolver(p), steps=2)
+        self.assertEqual(out['status'], 'unsat')
+        self.assertEqual(out['steps'], [])
