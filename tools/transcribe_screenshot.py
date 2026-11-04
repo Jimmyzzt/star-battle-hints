@@ -95,7 +95,8 @@ def transcribe(image, rect, n, k, boundary_threshold=.36):
             if roi.shape[:2] != (2*w+1,2*w+1):
                 raise ValueError('center crop missing; recheck grid rectangle')
             a=roi.astype('int16')
-            red=(a[:,:,0]>a[:,:,1]+22)&(a[:,:,0]>a[:,:,2]+18)&(a[:,:,0]>60)
+            # Dark red glyph pixels only; orange highlighted backgrounds are not X marks.
+            red=(a[:,:,0]>a[:,:,1]+22)&(a[:,:,0]>a[:,:,2]+18)&(a[:,:,0]>60)&(a[:,:,1]<140)&(a[:,:,2]<140)
             dark=roi.max(axis=2)<95
             dr=float(dark.mean());rr=float(red.mean())
             if dr>.15:
